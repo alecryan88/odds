@@ -1,1 +1,1 @@
-# sb-odds
+# odds
