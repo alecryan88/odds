@@ -1,8 +1,7 @@
 from odds import odds
 from aws import s3
 import time
-
-# from datetime import datetime
+import os
 
 # Vars for API Request
 ALL = 'true'
@@ -13,7 +12,10 @@ DAYS_FROM = '2'
 DATE_FORMAT = 'unix'
 
 # Specify your S3 bucket and the file name
-BUCKET_NAME = 'odds-api-data'
+BUCKET_NAME = os.environ['S3_BUCKET_NAME']
+STAGE = os.environ['STAGE']
+
+print("This is the stage", STAGE)
 
 # Instantiate objects
 request_object = odds.oddsAPIClient()
@@ -25,7 +27,7 @@ print("Uploading sports to s3")
 s3_object.upload_json_to_s3(
     sports_data,
     BUCKET_NAME,
-    f'sports/{int(time.time())}.json'
+    f'{STAGE}/sports/{int(time.time())}.json'
     )
 
 for SPORT in SPORTS:
@@ -39,7 +41,7 @@ for SPORT in SPORTS:
 
     # retrieve odds data
     odds_data = request_object.make_request(
-        endpoint='sports/{SPORT}/odds',
+        endpoint=f'sports/{SPORT}/odds',
         params=odds_params
     )
 
@@ -48,7 +50,7 @@ for SPORT in SPORTS:
     s3_object.upload_json_to_s3(
         odds_data,
         BUCKET_NAME,
-        f'odds/{SPORT}/{int(time.time())}.json'
+        f'{STAGE}/odds/{SPORT}/{int(time.time())}.json'
     )
 
     # Gets passed into request for scores
@@ -60,7 +62,7 @@ for SPORT in SPORTS:
 
     # makes reuqest for scores
     scores_data = request_object.make_request(
-        endpoint='sports/{SPORT}/scores',
+        endpoint=f'sports/{SPORT}/scores',
         params=scores_params
     )
 
@@ -69,5 +71,5 @@ for SPORT in SPORTS:
     s3_object.upload_json_to_s3(
         scores_data,
         BUCKET_NAME,
-        f'scores/{SPORT}/{int(time.time())}.json'
+        f'{STAGE}/scores/{SPORT}/{int(time.time())}.json'
     )
