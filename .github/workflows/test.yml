@@ -12,6 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Docker build
-        run: docker build -t odds-api-data .
+        run: docker build -t app:latest -f data/docker/Dockerfile .
       - name: Docker run
-        run: docker run odds-api-data
+        run: docker run app:latest
