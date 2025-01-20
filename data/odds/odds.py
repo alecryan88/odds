@@ -4,7 +4,7 @@ import os
 
 class oddsAPIClient:
     def __init__(self) -> None:
-        self.key = 'ca135c3f78c4b1ce431c3df13b765c4f'
+        self.key = os.environ['ODDS_API_KEY']
         self.host = 'https://api.the-odds-api.com/v4/'
         self.default_params = {
             'apiKey': self.key

@@ -47,6 +47,7 @@ for SPORT in SPORTS:
 
     # Upload odds data to s3
     print("Uploading odds to s3")
+    print(odds_data)
     s3_object.upload_json_to_s3(
         odds_data,
         BUCKET_NAME,
