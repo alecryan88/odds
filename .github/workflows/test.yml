@@ -1,0 +1,17 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Docker build
+        run: docker build -t app:latest -f data/docker/Dockerfile .
+      - name: Docker run
+        run: docker run -e STAGE=TEST -e S3_BUCKET_NAME=odds-api-data app:latest
