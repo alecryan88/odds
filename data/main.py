@@ -24,9 +24,6 @@ s3_object = s3.awsHandler()
 sports_data = request_object.make_request(endpoint='sports')
 
 print("Uploading sports to s3")
-print(STAGE)
-print(S3_BUCKET_NAME)
-print(os.environ)
 s3_object.upload_json_to_s3(
     sports_data,
     S3_BUCKET_NAME,
