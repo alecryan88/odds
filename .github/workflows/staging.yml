@@ -1,0 +1,23 @@
+name: stagning
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Docker build
+        run: docker build -t app:latest -f data/docker/Dockerfile .
+      - name: Docker run
+        run: docker run \
+          -e STAGE=STAGING \
+          -e S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} \
+          -e ODDS_API_KEY=${{ secrets.ODDS_API_KEY }} \
+          -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+          -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+          app:latest
