@@ -12,7 +12,7 @@ DAYS_FROM = '2'
 DATE_FORMAT = 'unix'
 
 # Specify your S3 bucket and the file name
-BUCKET_NAME = os.environ['S3_BUCKET_NAME']
+S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
 STAGE = os.environ['STAGE']
 
 print("This is the stage", STAGE)
@@ -28,7 +28,7 @@ print(STAGE)
 print(S3_BUCKET_NAME)
 s3_object.upload_json_to_s3(
     sports_data,
-    BUCKET_NAME,
+    S3_BUCKET_NAME,
     f'{STAGE}/sports/{int(time.time())}.json'
     )
 
@@ -52,7 +52,7 @@ for SPORT in SPORTS:
     print(odds_data)
     s3_object.upload_json_to_s3(
         odds_data,
-        BUCKET_NAME,
+        S3_BUCKET_NAME,
         f'{STAGE}/odds/{SPORT}/{int(time.time())}.json'
     )
 
@@ -73,6 +73,6 @@ for SPORT in SPORTS:
     print("Uploading scores to s3")
     s3_object.upload_json_to_s3(
         scores_data,
-        BUCKET_NAME,
+        S3_BUCKET_NAME,
         f'{STAGE}/scores/{SPORT}/{int(time.time())}.json'
     )
